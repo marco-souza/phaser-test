@@ -52,31 +52,37 @@ yarn add --dev gulp gulp-connect
 Agora crie um arquivo `gulpfile.js` e escreva:
 
 ```jsx
+/* global __dirname */
 const
-    gulp = require("gulp"),
+    config  = require("common-config"),
+    gulp    = require("gulp"),
+    pug     = require("gulp-pug"),
     connect = require("gulp-connect")
 
 /** Connect to a Web Serer */
 gulp.task("connect", () => {
     const serverOpts = {
-        root: 'dist',
+        root: config.src.dist,
         livereload: true
     }
     connect.server(serverOpts);
 })
 
-/** html reload */
-gulp.task('html', () => {
-    gulp.src('./dist/*.html')
+/** pug reload */
+gulp.task('pug', () => {
+    console.log(config);
+    return gulp.src(config.src.pug.path)
+        .pipe(pug(config.src.pug.opts))
+        .pipe(gulp.dest( config.src.dist ))
         .pipe(connect.reload());
 });
 
 /** Watch */
-gulp.task('watch', function () {
-    gulp.watch(['./dist/*.html'], ['html']);
+gulp.task('watch', () => {
+    gulp.watch([config.src.pug.path], ['pug']); // Pug Watcher
 });
 
-/** Default */
+/** Watch */
 gulp.task('default', ['connect', 'watch']);
 ```
 
@@ -86,4 +92,55 @@ Agora precisamos instalar o Phaser na ultima versão estável. Para isso vamos u
 
 ```bash
 yarn add phaser-ce@2.9.1
+```
+
+### Instalando PUG
+
+Vamos instalar a biblioteca `pug`, para tornar a escrita de html menos massante:
+
+```bash
+yarn add --dev gulp-pug
+```
+
+Vamos instalar também um pacote para abstrair as configurações na pasta `./config` usando o comando:
+
+```bash
+yarn add --dev http://github.com/nosebit/common-config.git
+```
+
+Agora vamos criar um arquivo `config/default.yml` com o seguinte conteudo:
+
+```yml
+# Source Configuration
+src:
+  dist: dist/
+  app: dist/app/
+  pug:
+    path: src/*.pug
+    opts:
+      locals:
+        title: Phaser Test
+```
+
+Agora crie seu arquivo `/src/index.pug` contendo:
+
+```jade
+<!DOCTYPE html>
+html(lang="pt-BR")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        meta(http-equiv="X-UA-Compatible", content="ie=edge")
+        title #{title}
+    body
+
+        H1 Teste
+```
+
+### Test
+
+Agora tente rodar o gulp e acessar o servidor gerado
+
+```bash
+gulp
 ```

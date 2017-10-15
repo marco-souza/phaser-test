@@ -1,0 +1,9 @@
+# Source Configuration
+src:
+  dist: dist/
+  app: dist/app/
+  pug:
+    path: src/*.pug
+    opts:
+      locals:
+        title: Phaser Test
