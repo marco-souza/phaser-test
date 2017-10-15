@@ -2,8 +2,9 @@
 
 Esse tutorial irá ajudar no estudo sobre Phaser JS, uma biblioteca JavaScript voltada para desenvolvimento de jogos para plataforma web, utilizando **HTML 5 Canvas** e **WebGL**.
 
+## Configurando o Ambiente de Desenvolvimento
 
-## Vamos precisar de um servidor web
+### Vamos precisar de um servidor web
 
 Talvez você pense:
 
@@ -15,7 +16,7 @@ Imagine se ele pudesse carregar qualquer arquivo de sua maquina sem um "intermed
 
 Portanto, por segurança, seus jogos só poderão carregar **arquivos locais** por meio de um `protocolo`.
 
-### Protocolos ?
+#### Protocolos
 
 Protocolos de comunicações são como **"regras" pre estabelicidas** de como as informações serão **solicitadas e respondidas**.
 
@@ -25,7 +26,7 @@ Quando você abre um arquivo diretamente em seu browser, ele utiliza o protocolo
 
 No seu jogo você precisa carregar recursoso de imagem, audio, dados, ou até mesmo JavaScript files. Para isso você precisa de segurança utilizando um servidor `http://` para acessar os arquivos do jogo. E para isso nos precisar de um servidor web.
 
-## Instalando um servidor web
+### Instalando um servidor web
 
 Como pretendemos fazer um projeto multiplataforma, ou seja, que rode em qualquer máquina, utilizaremos ferramentas baseadas em JavaScript.
 
@@ -35,16 +36,54 @@ Para criar nosso servidor local precisamos de instalar o **NodeJS** com **npm**,
 
 Para inicializar um projeto, cria uma pasta, acesse o terminal e digite:
 
-```
+```bash
 npm install -g yarn
 yarn init
 ```
 
-Utilizaremos a princípio o módulo `http-server` para NodeJS. mas com o decorrer do tudorial iremos mudar para uma tarefa do `gulp` com o plugin `gulp-connect`.
+Utilizaremos o `gulp` para criar tarefas e uma delasusará o plugin `gulp-connect` para criar um servidor web.
 
 Vamos instalar todas essas dependencias:
 
-```
-yarn add --dev http-server gulp gulp-connect
+```bash
+yarn add --dev gulp gulp-connect
 ```
 
+Agora crie um arquivo `gulpfile.js` e escreva:
+
+```jsx
+const
+    gulp = require("gulp"),
+    connect = require("gulp-connect")
+
+/** Connect to a Web Serer */
+gulp.task("connect", () => {
+    const serverOpts = {
+        root: 'dist',
+        livereload: true
+    }
+    connect.server(serverOpts);
+})
+
+/** html reload */
+gulp.task('html', () => {
+    gulp.src('./dist/*.html')
+        .pipe(connect.reload());
+});
+
+/** Watch */
+gulp.task('watch', function () {
+    gulp.watch(['./dist/*.html'], ['html']);
+});
+
+/** Default */
+gulp.task('default', ['connect', 'watch']);
+```
+
+### Instalando Phaser
+
+Agora precisamos instalar o Phaser na ultima versão estável. Para isso vamos utilizar o **yarn**:
+
+```bash
+yarn add phaser-ce@2.9.1
+```

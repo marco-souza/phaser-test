@@ -1287,6 +1287,10 @@ pause@0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/pause/-/pause-0.1.0.tgz#ebc8a4a8619ff0b8a81ac1513c3434ff469fdb74"
 
+phaser-ce@2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/phaser-ce/-/phaser-ce-2.9.1.tgz#5bccef9ddab4bd68a9be22735d09187b7b979678"
+
 portfinder@^1.0.13:
   version "1.0.13"
   resolved "https://registry.yarnpkg.com/portfinder/-/portfinder-1.0.13.tgz#bb32ecd87c27104ae6ee44b5a3ccbf0ebb1aede9"

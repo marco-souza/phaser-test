@@ -10,5 +10,8 @@
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "http-server": "^0.10.0"
+  },
+  "dependencies": {
+    "phaser-ce": "2.9.1"
   }
 }
